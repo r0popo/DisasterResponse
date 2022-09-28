@@ -28,7 +28,7 @@ This project showcases data engineering skills by analysing data from [Appen](ht
 
 
 ## File Descriptions <a name="files"></a>
-There are three directories included in this project.
+There are three directories included in this project:
 1. app/ directory containing files related to the flask web app
 2. data/ directory containig underlying dataset, python script for ETL Pipeline and a database with data ready for ML Pipeline
 3. models/ directory containing python script for ML Pipeline and .pkl file with trained model
