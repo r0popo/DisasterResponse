@@ -43,6 +43,22 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    category_names = df.columns.tolist()[3:] #extracting the category names to a list
+    
+    category_counts=[]
+    for  col in category_names:
+        count = df[[col]].sum()[0]
+        category_counts.append(count)
+        
+    category_dict = dict(zip(category_names, category_counts))
+    category_dict = dict(sorted(category_dict.items(), key=lambda item: item[1], reverse = True)) #sorting the categories and their count
+    
+    category_names_order = list(category_dict.keys())
+    category_counts_order = list(category_dict.values())
+    
+    #floods_counts = df.groupby('floods').count()['message']
+    #floods_names = list(floods_counts.index)
+    
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -61,9 +77,35 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
-                }
+                },
+                'hovermode':'x unified'
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=category_counts_order,
+                    y=category_names_order,
+                    orientation='h',
+                    #hovermode="closest"
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Category",
+                    'visible': True,
+                    'showticklabels': False
+                },
+                'xaxis': {
+                    'title': "Count"
+                    
+                },
+                'hovermode':'y unified'
             }
         }
+        
     ]
     
     # encode plotly graphs in JSON
