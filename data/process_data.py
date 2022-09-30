@@ -24,6 +24,7 @@ def load_data(messages_filepath, categories_filepath):
     categories.columns = category_colnames
     for column in categories: #iteratinf through all of the columns, removing the text part of the string and converting the value to integer
         categories[column] = categories[column].astype(str).apply(lambda x: re.sub('(\D*\-)','',x)).astype('int64')
+        categories[column] = categories[column].apply(lambda x: 0 if x==0 else 1) #converting all entries into binary
     
     df = messages.merge(categories, on='id')
     return df
@@ -46,7 +47,7 @@ def clean_data(df):
 
 def save_data(df, database_filename):
     engine = create_engine('sqlite:///'+ database_filename)  
-    df.to_sql('DisasterMessages', engine, index=False)
+    df.to_sql('DisasterMessages', engine, index=False, if_exists='replace')
     return
     
 
